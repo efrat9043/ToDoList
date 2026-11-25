@@ -32,7 +32,8 @@ app.MapGet("/items",async (ToDoDbContext db) => await db.Items.ToListAsync());
   
 
 app.MapPost("/items",async (Item item,ToDoDbContext  db)=>
-   {db.Items.Add(item);
+   {item.IsComplete ??= false;
+    db.Items.Add(item);
     await db.SaveChangesAsync();
     return Results.Created($"/items/{item.Id}", item);}
 );
